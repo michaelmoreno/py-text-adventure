@@ -13,12 +13,14 @@ class Rarity(Enum):
 class Item(ABC):
     name: str
     worth: float
+    weight: float
     rarity: Rarity
     description: str
 
-    def __init__(self, name: str, worth: float, rarity: Rarity, description: str):
+    def __init__(self, name: str, worth: float, weight: float, rarity: Rarity, description: str):
         self.name = name
         self.worth = worth
+        self.weight = weight
         self.rarity = rarity
         self.description = description
     
