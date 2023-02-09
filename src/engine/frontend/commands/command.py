@@ -1,7 +1,6 @@
 from enum import Enum
 from abc import ABC
-from common.state.state import State
-from common.state.state_machine import StateMachine
+from common.state_machine import State
 
 class Command(State):
     keyword: str

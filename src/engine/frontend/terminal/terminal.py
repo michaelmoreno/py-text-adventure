@@ -1,11 +1,11 @@
 import time
 from engine.frontend.frontend import Frontend
-from engine.frontend.input_handler import IOHandler
+from engine.frontend.io_handler import IOHandler
 
-class Terminal(Frontend):
-    def __init__(self, input_handler: IOHandler):
-        super().__init__(input_handler)
-
+class TerminalFrontend(Frontend):
+    def __init__(self):
+        ...
+        
     def display(self, text: str) -> None:
         for char in text:
             print(char, end='', flush=True)
@@ -16,4 +16,3 @@ class Terminal(Frontend):
 
     def cycle(self) -> None:
         message = self.capture()
-        response = self.input_handler.handle(message)

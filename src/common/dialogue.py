@@ -1,5 +1,5 @@
 from __future__ import annotations
-from common.state.state_machine import State
+from common.state_machine import State
 from typing import Callable, NamedTuple
 
 class DialogueOption(NamedTuple):
