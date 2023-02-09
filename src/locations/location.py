@@ -14,4 +14,8 @@ class Location:
         self.entities = entities
         self.entrances = entrances
 
+    def has_item(self, name: str) -> bool:
+        return any([item.name == name for item in self.items])
     
+    def has_entity(self, name: str) -> bool:
+        return any([entity.name == name for entity in self.entities])

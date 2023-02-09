@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- dialogue tree, with options that result in new dialogue prompts -->
+    <npc id="1" name="Deuro">
+        <dialogue id="1" text="Hello, I am a test NPC.">
+            <option id="1" text="Hello, I am a test player." next="2"/>
+            <option id="2" text="Goodbye." next="3"/>
+        </dialogue>
+        <dialogue id="2" text="Hello, I am a test player.">
+            <option id="1" text="Goodbye." next="3"/>
+        </dialogue>
+        <dialogue id="3" text="Goodbye."/>
+        
+    </npc>

@@ -1,18 +1,13 @@
 from enum import Enum
+from abc import ABC
+from common.state.state import State
+from common.state.state_machine import StateMachine
 
-class Action(Enum):
-    GRAB = 1
-    DROP = 2
-    GO = 3
-    TALK = 4
-    STEAL = 5
-
-class Command:
+class Command(State):
     keyword: str
 
     def execute(self, ) -> str:
         ...
-
 
     def match(self, command: str) -> bool:
         ...
