@@ -5,9 +5,9 @@ from typing import Callable, NamedTuple
 class DialogueOption(NamedTuple):
     text: str
     requirements: list[Callable[[GameState], bool]]
-    result: Dialogue
+    result: DialogueNode
 
-class Dialogue(State):
+class DialogueNode(State):
     text: str
     options: list[DialogueOption]
 

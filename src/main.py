@@ -1,8 +1,8 @@
 from engine.frontend.terminal.terminal import TerminalFrontend
 from engine.frontend.io_handler import IOHandler
-from engine.commands.factories.grab import GrabFactory
-from engine.commands.factories.factory import CommandFactory
-from entities.creatures.agents.humanoids.humanoid import Humanoid
+from engine.frontend.commands.factories.grab import GrabFactory
+from engine.frontend.commands.factories.factory import CommandFactory
+from game.entities.agents.humanoids.humanoid import Humanoid
 from common.inventory import Inventory
 from world.map import lermwick_prison_hallway
 

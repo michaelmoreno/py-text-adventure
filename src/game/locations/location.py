@@ -19,3 +19,8 @@ class Location:
     
     def has_entity(self, name: str) -> bool:
         return any([entity.name == name for entity in self.entities])
+    
+    def find_entity(self, name: str) -> Entity | None:
+        for entity in self.entities:
+            if entity.name == name:
+                return entity

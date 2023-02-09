@@ -1,4 +1,28 @@
+from __future__ import annotations
+from typing import Literal
+from common.inventory import Inventory
+from common.traits import TraitsDict
 from locations.location import Location
+from common.dialogue import DialogueNode
+
+Relationship = Literal['Friendly', 'Hostile', 'Neutral']
 
 class Entity:
-    location: Location
+    id: int
+    name: str
+    inventory: Inventory
+    health: float
+    traits: TraitsDict
+    relationships: dict[Entity, Relationship]
+    dialogue_node: DialogueNode
+
+    def __init__(self, id: int, name: str, inventory: Inventory, health: float, traits: TraitsDict):
+        self.int = id
+        self.name = name
+        self.inventory = inventory
+        self.health = health
+        self.traits = traits
+
+    def goto(self, location: Location):
+        self.location = location
+        location.entities.append(self)

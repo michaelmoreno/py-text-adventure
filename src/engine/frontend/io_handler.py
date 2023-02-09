@@ -11,11 +11,24 @@ class IOHandler(StateMachine):
         self.frontend = frontend
         self.state = IdentifyCommand(self, command_factories)
     
-    def handle(self):
+
+    def capture(self) -> str:
+        return self.frontend.capture()
+
+    def match_command(self, message: str) -> State:
+        for factory in self.factories:
+            if factory.match(message):
+                return factory.build(self.context)
+        return self
+
+    def update(self):
+        message = self.capture()
+        # need to make decision about setting state back to identifycommand
         self.state.execute()
 
     def enter(self, state: State):
         self.state = state
-    
-    def capture(self) -> str:
-        return self.frontend.capture()
+        self.state.execute()
+
+    def output(self, message: str):
+        self.frontend.display(message)
