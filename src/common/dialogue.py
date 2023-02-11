@@ -1,43 +1,20 @@
 from __future__ import annotations
 from common.state_machine import State
-from typing import Callable, NamedTuple
+from typing import Callable, NamedTuple, Optional
 from engine.frontend.io_handler import IOHandler
+from world.world_state import WorldState
 
 class DialogueOption(NamedTuple):
     text: str
-    requirements: list[Callable[[object], bool]]
-    result: DialogueNode
+    next: Optional[DialogueNode] = None
+    requirements: list[Callable[[WorldState], bool]] = []
+    effects: list[Callable[[WorldState], None]] = []
 
-class DialogueNode(State):
-    context: IOHandler
+
+class DialogueNode:
     text: str
     options: list[DialogueOption]
 
-    def __init__(self, context: IOHandler, text: str, options):
-        self.context = context
+    def __init__(self, text: str, options):
         self.text = text
         self.options = options
-
-    def execute(self):
-        self.context.output(self.text)
-        self.context.output(''.join([option.text for option in self.options]))
-        self.context.capture()
-        ...
-
-# diag = Dialogue(
-#     'Hi there! How are you?',:
-#     (
-#         'Good', Dialogue(
-#             ''
-#         )
-#         'Who are you?'
-#         )
-# )
-    
-
-
-class DialogueContext:
-    state: Dialogue
-
-    def enter(self, dialogue: Dialogue ):
-        ...

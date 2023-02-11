@@ -1,6 +1,9 @@
 from __future__ import annotations
-from items.item import Item
-from entities.entity import Entity
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from game.entities.entity import Entity
+from game.items.item import Item
+
 
 class Location:
     name: str

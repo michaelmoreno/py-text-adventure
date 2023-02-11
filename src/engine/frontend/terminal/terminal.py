@@ -9,7 +9,8 @@ class TerminalFrontend(Frontend):
     def display(self, text: str) -> None:
         for char in text:
             print(char, end='', flush=True)
-            time.sleep(0.01)
+            time.sleep(0.04)
+        print()
 
     def capture(self) -> str:
         return input('>')

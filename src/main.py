@@ -7,7 +7,7 @@ from game.entities.agents.agent import Agent
 from common.inventory import Inventory
 from game.locations.location import Location
 from world.world_state import WorldState
-from common.dialogue import DialogueNode
+from common.dialogue import DialogueNode, DialogueOption
 
 if __name__ == '__main__':
 
@@ -17,13 +17,29 @@ if __name__ == '__main__':
         [],
         []
     )
+    WorldState.x = 1 # type: ignore
 
-    dia = DialogueNode(
-        ...,
-        "Hello, I am Dax",
-        []
+    dialogue = DialogueNode("Who are you?",
+        [
+            DialogueOption("I'm a prisoner.",
+                DialogueNode("What did you do?",[]),
+                [lambda world: world.x == 1],
+                [lambda world: setattr(world, "x", 2)]),
+            DialogueOption("I'm a guard.",
+                DialogueNode("What are you doing here?",[]),
+                [lambda world: world.x == 2],
+                [lambda world: setattr(world, "x", 3)]),
+        ])
+
+    dax = Agent(
+        2,
+        "Dax",
+        Inventory(),
+        100, 
+        {'acrobatics': 10, 'charisma': 10, 'dexterity': 10, 'intelligence': 20},
+        lermwick_prison_cell,
+        dialogue
     )
-
 
     player = Agent(
         1,
@@ -31,15 +47,19 @@ if __name__ == '__main__':
         Inventory(),
         100,
         {'acrobatics': 10, 'charisma': 10, 'dexterity': 10, 'intelligence': 20},
-        lermwick_prison_cell
+        lermwick_prison_cell,
+        None
     )
     lermwick_prison_cell.entities.append(player)
+    lermwick_prison_cell.entities.append(dax)
     world_state = WorldState()
+    world_state.player = player # type: ignore
     factories: list[CommandFactory] = [
-        GrabFactory(), TalkFactory(world_state)] # type: ignore
+        GrabFactory('grab', player), TalkFactory('talk',world_state)] # type: ignore
 
     io_handler = IOHandler(
         TerminalFrontend(),
         factories
     )
-    io_handler.capture()
+    while True:
+        io_handler.handle()

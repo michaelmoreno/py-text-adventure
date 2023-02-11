@@ -8,6 +8,9 @@ from engine.frontend.commands.command import Command
 class CommandFactory(ABC):
     keyword: str
 
+    def __init__(self, keyword: str):
+        self.keyword = keyword
+
     def match(self, message: str) -> bool:
         return message == self.keyword
     

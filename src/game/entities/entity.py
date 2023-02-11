@@ -2,8 +2,10 @@ from __future__ import annotations
 from typing import Literal
 from common.inventory import Inventory
 from common.traits import TraitsDict
-from locations.location import Location
-from common.dialogue import DialogueNode
+from game.locations.location import Location
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from common.dialogue import DialogueNode
 
 
 
@@ -14,18 +16,16 @@ class Entity:
     health: float
     traits: TraitsDict
     location: Location
-    # relationships: dict[Entity, Relationship]
-    dialogue_node: DialogueNode
+    dialogue_node: DialogueNode | None
 
-    def __init__(self, id: int, name: str, inventory: Inventory, health: float, traits: TraitsDict, location: Location):
+    def __init__(self, id: int, name: str, inventory: Inventory, health: float, traits: TraitsDict, location: Location, dialogue_node: DialogueNode):
         self.int = id
         self.name = name
         self.inventory = inventory
         self.health = health
         self.traits = traits
         self.location = location
-        # self.relationships = {}
-        # self.dialogue_node = None
+        self.dialogue_node = dialogue_node
 
     def goto(self, location: Location):
         self.location = location

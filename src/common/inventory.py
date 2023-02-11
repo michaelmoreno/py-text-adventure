@@ -1,4 +1,4 @@
-from items.item import Item
+from game.items.item import Item
 
 class Inventory:
     items: list[Item]
