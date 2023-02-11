@@ -4,8 +4,8 @@ from engine.frontend.commands.factory import CommandFactory
 from engine.frontend.io_handler import IOHandler
 
 class Grab(State):
-    def __init__(self, context: StateMachine, player: Entity):
-        self.context = context
+    context: IOHandler
+    def __init__(self, player: Entity):
         self.player: Entity
 
     def execute(self):
@@ -22,4 +22,4 @@ class GrabFactory(CommandFactory):
         self.player = player
 
     def build(self, context: IOHandler):
-        return Grab(context, self.player)
+        return Grab(self.player)

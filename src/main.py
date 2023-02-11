@@ -11,7 +11,6 @@ from common.dialogue import DialogueNode, DialogueOption
 
 
 if __name__ == '__main__':
-
     lermwick_prison_cell = Location(
         "Lermwick Prison",
         [],

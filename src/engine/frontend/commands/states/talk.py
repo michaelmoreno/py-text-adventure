@@ -7,12 +7,11 @@ from world.world_state import WorldState
 
 
 class DialogueState(State):
-    npc: Entity
     context: IOHandler
+    npc: Entity
     world: WorldState
 
-    def __init__(self, context: IOHandler, npc: Entity, world: WorldState):
-        self.context = context
+    def __init__(self, npc: Entity, world: WorldState):
         self.npc = npc
         self.world = world
 
@@ -65,7 +64,7 @@ class DialogueState(State):
         self.apply_effects(choice)
         self.npc.dialogue_node = choice.next
         self.context.enter(
-            DialogueState(self.context, self.npc, self.world))
+            DialogueState(self.npc, self.world))
 
 
 class Talk(State):
@@ -79,8 +78,7 @@ class Talk(State):
     def execute(self):
         npc = self.world.player.location.find_entity('Dax')
         if npc:
-            self.context.enter(DialogueState(
-                self.context, npc, self.world))
+            self.context.enter(DialogueState(npc, self.world))
         else:
             self.context.output('No entity found')
         
