@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from engine.frontend.io_handler import IOHandler
-from engine.frontend.commands.factories.factory import CommandFactory
+from engine.frontend.commands.factory import CommandFactory
 from common.state_machine import State
 
 class IdentifyCommand(State):
