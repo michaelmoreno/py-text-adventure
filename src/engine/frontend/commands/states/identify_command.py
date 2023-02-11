@@ -24,4 +24,3 @@ class IdentifyCommand(State):
         next_state = self.match_command(message)
         self.context.enter(next_state)
         next_state.execute()
-        self.context.enter(self)

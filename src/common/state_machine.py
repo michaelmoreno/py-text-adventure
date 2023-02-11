@@ -7,7 +7,11 @@ class State(Protocol):
     def __init__(self, context: StateMachine):
         self.context = context
 
+    def enter(self):
+        ...
     def execute(self) -> None:
+        ...
+    def exit(self):
         ...
 
 class StateMachine:

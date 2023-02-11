@@ -9,6 +9,7 @@ from game.locations.location import Location
 from world.world_state import WorldState
 from common.dialogue import DialogueNode, DialogueOption
 
+
 if __name__ == '__main__':
 
     lermwick_prison_cell = Location(

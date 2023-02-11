@@ -16,6 +16,7 @@ class IOHandler(StateMachine):
 
     def enter(self, state: State):
         self.state = state
+        self.state.enter()
     
     def capture(self) -> str:
         return self.frontend.capture()
