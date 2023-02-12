@@ -21,30 +21,18 @@ class DialogueState(State):
             return 
         self.context.output(self.npc.dialogue_node.text)
 
-    def display_choices(self, options: list[DialogueOption]):
-        s = ''
-        for i, option in enumerate(options):
-            s += f'[ {i+1}: {option.text} ]'
-        self.context.output(s)
-
     def requirements_met(self, option: DialogueOption) -> bool:
         return all(predicate(self.world) for predicate in option.requirements)
 
-    def valid_number(self, choice: str, options: list[DialogueOption]) -> bool:
-        return choice.isdigit() and int(choice) <= len(options) 
-
-
-    def select_choice(self, options: list[DialogueOption]) -> DialogueOption:
-        choice = self.context.capture()
-        if not self.valid_number(choice, options):
-            self.context.output('Invalid choice. Try again.')
-            return self.select_choice(options)
-            
-        if not self.requirements_met(options[int(choice)-1]):
+    def pick_response(self, options: list[DialogueOption]) -> DialogueOption:
+        choice = self.context.select_option(
+            options,
+            prompt='',
+            template='[ {index}: {text} ]')
+        if not self.requirements_met(choice):
             self.context.output('Requirements not met!')
-            return self.select_choice(options)
-
-        return options[int(choice)-1]
+            return self.pick_response(options)
+        return choice
 
     def apply_effects(self, option: DialogueOption):
         for effect in option.effects:
@@ -59,8 +47,7 @@ class DialogueState(State):
         if len(dialogue.options) == 0:
             return self.context.reset()
         
-        self.display_choices(dialogue.options)
-        choice = self.select_choice(dialogue.options)
+        choice = self.pick_response(dialogue.options)
         self.apply_effects(choice)
         self.npc.dialogue_node = choice.next
         self.context.enter(
@@ -75,25 +62,19 @@ class TalkCommand(Command):
         self.context = context
         self.world = world
 
-    def _display_prompt(self):
-        self.context.output('There are multiple entities with that name. Which are you referring to?')
-
-    def _display_options(self, options: list[Entity]) -> None:
-        s = ''
-        for i, option in enumerate(options):
-            s += f'[ {i+1}. {option.name} ]'
-        self.context.output(s)
-
     def find_entity(self, name: str) -> Entity | None:
         entities = self.world.player.location.entities
         candidates = [entity for entity in entities if name in entity.name]
+        
         match len(candidates):
             case 0:
                 return None
             case 1:
                 return candidates[0]
             case _:
-                return self.select_options(candidates)
+                return self.io.select_option(
+                    candidates,
+                    'There are multiple entities with that name. Which are you referring to?')
 
     def handle(self, message: str) -> None:
         action, *args = message.lower().split()

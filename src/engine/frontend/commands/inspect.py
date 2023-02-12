@@ -11,24 +11,22 @@ class LookCommand(Command):
     def __init__(self, io: IOHandler, player: Entity):
         super().__init__(io)
         self.player = player
-
-    def _display_options(self, options: list[Item | Entity | Location]):
-        s = ''
-        for i, option in enumerate(options):
-            s += f'[ {i+1}. {option.name} ({type(option).__name__}) ]'
-        self.io.output(s)
     
     def find_thing(self, name: str) -> Item | Entity | Location | None:
         nearby = self.player.location
         things = nearby.items + nearby.entities + nearby.entrances
         candidates = [x for x in things if name in x.name.lower()]
+
         match len(candidates):
             case 0:
                 return None
             case 1:
                 return candidates[0]
             case _:
-                return self.select_option(candidates) # type: ignore
+                return self.io.select_option(
+                    candidates, 
+                    'There are multiple things with that name. Which one do you mean?',
+                    '[ {index}: {name} ({type}) ]')
     
     def handle(self, message: str):
         action, *args = message.strip().lower().split()
