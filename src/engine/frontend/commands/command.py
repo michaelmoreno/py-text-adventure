@@ -3,7 +3,7 @@ from abc import ABC
 from common.state_machine import State
 
 class Command:
-    def match() -> bool:
+    def match(self, message: str) -> bool:
         ...
-    def handle() -> None:
+    def handle(self, message: str) -> None:
         ...

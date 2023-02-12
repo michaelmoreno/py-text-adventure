@@ -1,6 +1,6 @@
 from __future__ import annotations
 from common.state_machine import StateMachine, State
-from engine.frontend.commands.states.identify_command import IdentifyCommand
+from engine.frontend.handle_command import HandleCommand
 from engine.frontend.commands.factory import CommandFactory
 from engine.frontend.frontend import Frontend
 
@@ -11,8 +11,8 @@ class IOHandler(StateMachine):
 
     def __init__(self, frontend: Frontend, command_factories: list[CommandFactory]):
         self.frontend = frontend
-        self.state = IdentifyCommand(self, command_factories)
-        self.identify_command = self.state
+        self.state = HandleCommand(self, command_factories)
+        self.handle_command = self.state
     
     def update(self):
         self.state.execute()
@@ -29,5 +29,5 @@ class IOHandler(StateMachine):
         self.frontend.display(message)
     
     def reset(self):
-        self.enter(self.identify_command)
+        self.enter(self.handle_command)
 

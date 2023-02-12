@@ -17,8 +17,8 @@ class Grab(State):
 class GrabFactory(CommandFactory):
     player: Entity
 
-    def __init__(self, keyword: str, player: Entity):
-        super().__init__(keyword)
+    def __init__(self, keywords: list[str], player: Entity):
+        super().__init__(keywords)
         self.player = player
 
     def build(self, context: IOHandler):

@@ -6,13 +6,14 @@ from abc import ABC, abstractmethod
 from engine.frontend.commands.command import Command
 
 class CommandFactory(ABC):
-    keyword: str
+    keywords: list[str]
 
-    def __init__(self, keyword: str):
-        self.keyword = keyword
+    def __init__(self, keywords: list[str]):
+        self.keywords = keywords
 
     def match(self, message: str) -> bool:
-        return message == self.keyword
+        action, *args = message.strip().lower().split()
+        return action in self.keywords
     
     @abstractmethod
     def build(self, context: IOHandler) -> Command:

@@ -68,18 +68,12 @@ class DialogueState(State):
 
 
 class TalkCommand:
-    keywords: list[str]
     context: IOHandler
     world: WorldState
 
-    def __init__(self, keywords: list[str], context: IOHandler, world: WorldState):
-        self.keywords = keywords
+    def __init__(self, context: IOHandler, world: WorldState):
         self.context = context
         self.world = world
-
-    def match(self, message: str) -> bool:
-        action, *args = message.strip().lower().split()
-        return action in self.keywords
 
     def select_candidate(self, candidates: list[Entity]) -> Entity:
         self.context.output('There are multiple entities with that name. Which are you referring to?')
@@ -104,7 +98,7 @@ class TalkCommand:
     def handle(self, message: str) -> None:
         action, *args = message.lower().split()
         if len(args) == 0:
-            return self.context.output('Talk to who?')
+            return self.context.output('Talk to who? talk <name>')
         target = self.find_entity(*args)
         if target:
             self.context.enter(DialogueState(target, self.world))
@@ -114,9 +108,9 @@ class TalkCommand:
 class TalkFactory(CommandFactory):
     world: WorldState
 
-    def __init__(self, keyword: str, world_state: object):
-        super().__init__(keyword)
-        self.world = world_state # type: ignore
+    def __init__(self, keywords: list[str], world_state: WorldState):
+        super().__init__(keywords)
+        self.world = world_state
 
-    def build(self, context: IOHandler) -> Talk:
-        return Talk(context, self.world)
+    def build(self, context: IOHandler) -> TalkCommand:
+        return TalkCommand(context, self.world)

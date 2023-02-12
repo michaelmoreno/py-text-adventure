@@ -6,18 +6,24 @@ from engine.frontend.commands.factory import CommandFactory
 from common.state_machine import State
 from engine.frontend.commands.command import Command
 
-class IdentifyCommand(State):
+class HandleCommand(State):
     context: IOHandler
     factories: list[CommandFactory]
-    commands: list[Command]
 
     def __init__(self, context: IOHandler, factories: list[CommandFactory]):
         self.context = context
         self.factories = factories
 
+    def match_command(self, message: str) -> Command | None:
+        for factory in self.factories:
+            if factory.match(message):
+                return factory.build(self.context)
+        return None
+
     def execute(self):
         message = self.context.capture()
-        for command in self.commands:
-            if command.match(message):
-                return command.execute(message)
-        self.context.output('Invalid command. Try again.')
+        command = self.match_command(message)
+        if command:
+            command.handle(message)
+        else:
+            self.context.output('Invalid command. Try again.')

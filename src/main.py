@@ -2,12 +2,14 @@ from engine.frontend.terminal.terminal import TerminalFrontend
 from engine.frontend.io_handler import IOHandler
 from engine.frontend.commands.states.grab import GrabFactory
 from engine.frontend.commands.states.talk import TalkFactory, TalkCommand
+from engine.frontend.commands.states.look import LookFactory, LookCommand
 from engine.frontend.commands.factory import CommandFactory
 from game.entities.agents.agent import Agent
 from common.inventory import Inventory
 from game.locations.location import Location
 from world.world_state import WorldState
 from common.dialogue import DialogueNode, DialogueOption
+from typing import Any
 
 
 
@@ -55,11 +57,11 @@ if __name__ == '__main__':
     lermwick_prison_cell.entities.append(dax)
     world_state = WorldState()
     world_state.player = player # type: ignore
-    factories: list[CommandFactory] = [
-        GrabFactory('grab', player), TalkFactory('talk',world_state)] # type: ignore
+    factories: list[Any] = [
+        GrabFactory(['grab'], player),
+        TalkFactory(['talk'], world_state),
+        LookFactory(['look'], player)]
     
-    commands = [TalkCommand('talk', )]
-
     io_handler = IOHandler(
         TerminalFrontend(),
         factories
