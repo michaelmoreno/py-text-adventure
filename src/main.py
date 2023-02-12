@@ -1,13 +1,14 @@
 from engine.frontend.terminal.terminal import TerminalFrontend
 from engine.frontend.io_handler import IOHandler
 from engine.frontend.commands.states.grab import GrabFactory
-from engine.frontend.commands.states.talk import TalkFactory
+from engine.frontend.commands.states.talk import TalkFactory, TalkCommand
 from engine.frontend.commands.factory import CommandFactory
 from game.entities.agents.agent import Agent
 from common.inventory import Inventory
 from game.locations.location import Location
 from world.world_state import WorldState
 from common.dialogue import DialogueNode, DialogueOption
+
 
 
 if __name__ == '__main__':
@@ -56,10 +57,12 @@ if __name__ == '__main__':
     world_state.player = player # type: ignore
     factories: list[CommandFactory] = [
         GrabFactory('grab', player), TalkFactory('talk',world_state)] # type: ignore
+    
+    commands = [TalkCommand('talk', )]
 
     io_handler = IOHandler(
         TerminalFrontend(),
         factories
     )
     while True:
-        io_handler.handle()
+        io_handler.update()

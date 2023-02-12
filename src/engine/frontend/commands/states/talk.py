@@ -67,21 +67,49 @@ class DialogueState(State):
             DialogueState(self.npc, self.world))
 
 
-class Talk(State):
+class TalkCommand:
+    keywords: list[str]
     context: IOHandler
     world: WorldState
 
-    def __init__(self, context: IOHandler, world: WorldState):
+    def __init__(self, keywords: list[str], context: IOHandler, world: WorldState):
+        self.keywords = keywords
         self.context = context
         self.world = world
 
-    def execute(self):
-        npc = self.world.player.location.find_entity('Dax')
-        if npc:
-            self.context.enter(DialogueState(npc, self.world))
+    def match(self, message: str) -> bool:
+        action, *args = message.strip().lower().split()
+        return action in self.keywords
+
+    def select_candidate(self, candidates: list[Entity]) -> Entity:
+        self.context.output('There are multiple entities with that name. Which are you referring to?')
+        self.context.output(' '.join(entity.name for entity in candidates))
+        choice = self.context.capture()
+        if not choice.isdigit() or int(choice) > len(candidates):
+            self.context.output('Invalid choice. Try again.')
+            return self.select_candidate(candidates)
+        return candidates[int(choice)-1]
+
+    def find_entity(self, name: str) -> Entity | None:
+        entities = self.world.player.location.entities
+        candidates = [entity for entity in entities if name in entity.name]
+        match len(candidates):
+            case 0:
+                return None
+            case 1:
+                return candidates[0]
+            case _:
+                return self.select_candidate(candidates)
+
+    def handle(self, message: str) -> None:
+        action, *args = message.lower().split()
+        if len(args) == 0:
+            return self.context.output('Talk to who?')
+        target = self.find_entity(*args)
+        if target:
+            self.context.enter(DialogueState(target, self.world))
         else:
-            self.context.output('No entity found')
-        
+            self.context.output('No entity with that name found.') 
 
 class TalkFactory(CommandFactory):
     world: WorldState

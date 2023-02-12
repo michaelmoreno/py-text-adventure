@@ -14,7 +14,7 @@ class IOHandler(StateMachine):
         self.state = IdentifyCommand(self, command_factories)
         self.identify_command = self.state
     
-    def handle(self):
+    def update(self):
         self.state.execute()
 
     def enter(self, state: State):
