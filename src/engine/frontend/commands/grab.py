@@ -1,6 +1,6 @@
 from game.entities.entity import Entity
-from common.state_machine import StateMachine, State
-from engine.frontend.commands.factory import CommandFactory
+from common.state_machine import State
+from engine.frontend.commands.command import CommandFactory
 from engine.frontend.io_handler import IOHandler
 
 class Grab(State):

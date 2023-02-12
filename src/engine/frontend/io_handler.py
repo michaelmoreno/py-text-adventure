@@ -1,7 +1,7 @@
 from __future__ import annotations
 from common.state_machine import StateMachine, State
 from engine.frontend.handle_command import HandleCommand
-from engine.frontend.commands.factory import CommandFactory
+from engine.frontend.commands.command import CommandFactory
 from engine.frontend.frontend import Frontend
 
 

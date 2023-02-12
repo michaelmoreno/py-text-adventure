@@ -1,8 +1,8 @@
 from game.entities.entity import Entity
 from common.state_machine import State
-from common.dialogue import DialogueOption, DialogueNode
+from common.dialogue import DialogueOption
 from engine.frontend.io_handler import IOHandler
-from engine.frontend.commands.factory import CommandFactory
+from engine.frontend.commands.command import CommandFactory
 from world.world_state import WorldState
 
 

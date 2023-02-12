@@ -2,9 +2,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from engine.frontend.io_handler import IOHandler
-from engine.frontend.commands.factory import CommandFactory
+from engine.frontend.commands.command import CommandFactory, Command
 from common.state_machine import State
-from engine.frontend.commands.command import Command
 
 class HandleCommand(State):
     context: IOHandler
