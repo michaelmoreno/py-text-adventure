@@ -64,7 +64,8 @@ class TalkCommand(Command):
 
     def find_entity(self, name: str) -> Entity | None:
         entities = self.world.player.location.entities
-        candidates = [entity for entity in entities if name in entity.name]
+        candidates = [entity for entity in entities
+            if name in entity.name.lower()]
         
         match len(candidates):
             case 0:
@@ -77,7 +78,7 @@ class TalkCommand(Command):
                     'There are multiple entities with that name. Which are you referring to?')
 
     def handle(self, message: str) -> None:
-        action, *args = message.lower().split()
+        action, *args = message.strip().lower().split()
         if len(args) == 0:
             return self.context.output('Talk to who? talk <name>')
         target = self.find_entity(*args)
