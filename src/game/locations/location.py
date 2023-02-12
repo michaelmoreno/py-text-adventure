@@ -7,12 +7,14 @@ from game.items.item import Item
 
 class Location:
     name: str
+    description: str
     items: list[Item]
     entities: list[Entity]
     entrances: list[Location]
 
-    def __init__(self, name: str, items: list[Item], entities: list[Entity], entrances: list[Location]):
+    def __init__(self, name: str, description: str, items: list[Item], entities: list[Entity], entrances: list[Location]):
         self.name = name
+        self.description = description
         self.items = items
         self.entities = entities
         self.entrances = entrances

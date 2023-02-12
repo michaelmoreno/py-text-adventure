@@ -12,14 +12,16 @@ if TYPE_CHECKING:
 class Entity:
     id: int
     name: str
+    description: str
     inventory: Inventory
     health: float
     traits: TraitsDict
     location: Location
     dialogue_node: DialogueNode | None
 
-    def __init__(self, id: int, name: str, inventory: Inventory, health: float, traits: TraitsDict, location: Location, dialogue_node: DialogueNode):
+    def __init__(self, id: int, name: str, description: str, inventory: Inventory, health: float, traits: TraitsDict, location: Location, dialogue_node: DialogueNode):
         self.int = id
+        self.description = description
         self.name = name
         self.inventory = inventory
         self.health = health
