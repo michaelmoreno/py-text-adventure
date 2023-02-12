@@ -58,7 +58,7 @@ if __name__ == '__main__':
     )
     lermwick_prison_cell.entities.append(player)
     lermwick_prison_cell.entities.append(dax)
-    lermwick_prison_cell.items.append(Item("Dax's battleaxe", 100, 50, Rarity.COMMON, 'An embelished battleaxe crafted by Dax.'))
+    lermwick_prison_cell.items.append(Item("Dax's battleaxe", 100, 500, Rarity.COMMON, 'An embelished battleaxe crafted by Dax.'))
     world_state = WorldState()
     world_state.player = player # type: ignore
     factories: list[Any] = [
