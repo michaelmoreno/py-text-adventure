@@ -2,7 +2,7 @@ from game.entities.entity import Entity
 from common.state_machine import State
 from common.dialogue import DialogueOption
 from engine.frontend.io_handler import IOHandler
-from engine.frontend.commands.command import CommandFactory
+from engine.frontend.commands.command import CommandFactory, Command
 from world.world_state import WorldState
 
 
@@ -67,7 +67,7 @@ class DialogueState(State):
             DialogueState(self.npc, self.world))
 
 
-class TalkCommand:
+class TalkCommand(Command):
     context: IOHandler
     world: WorldState
 
@@ -75,14 +75,14 @@ class TalkCommand:
         self.context = context
         self.world = world
 
-    def select_candidate(self, candidates: list[Entity]) -> Entity:
+    def _display_prompt(self):
         self.context.output('There are multiple entities with that name. Which are you referring to?')
-        self.context.output(' '.join(entity.name for entity in candidates))
-        choice = self.context.capture()
-        if not choice.isdigit() or int(choice) > len(candidates):
-            self.context.output('Invalid choice. Try again.')
-            return self.select_candidate(candidates)
-        return candidates[int(choice)-1]
+
+    def _display_options(self, options: list[Entity]) -> None:
+        s = ''
+        for i, option in enumerate(options):
+            s += f'[ {i+1}. {option.name} ]'
+        self.context.output(s)
 
     def find_entity(self, name: str) -> Entity | None:
         entities = self.world.player.location.entities
@@ -93,7 +93,7 @@ class TalkCommand:
             case 1:
                 return candidates[0]
             case _:
-                return self.select_candidate(candidates)
+                return self.select_options(candidates)
 
     def handle(self, message: str) -> None:
         action, *args = message.lower().split()
