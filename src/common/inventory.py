@@ -18,5 +18,5 @@ class Inventory:
         self.items.append(item)
         return True
 
-    def drop(self, item: Item):
-        ...
+    def remove(self, item: Item):
+        self.items.remove(item)

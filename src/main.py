@@ -3,6 +3,7 @@ from engine.frontend.io_handler import IOHandler
 from engine.frontend.commands.grab import GrabFactory
 from engine.frontend.commands.talk import TalkFactory
 from engine.frontend.commands.look import LookFactory
+from engine.frontend.commands.drop import DropFactory
 from engine.frontend.commands.inspect import InspectFactory
 from engine.frontend.commands.command import CommandFactory
 from game.entities.agents.agent import Agent
@@ -58,14 +59,15 @@ if __name__ == '__main__':
     )
     lermwick_prison_cell.entities.append(player)
     lermwick_prison_cell.entities.append(dax)
-    lermwick_prison_cell.items.append(Item("Dax's battleaxe", 100, 500, Rarity.COMMON, 'An embelished battleaxe crafted by Dax.'))
+    lermwick_prison_cell.items.append(Item("Dax's battleaxe", 100, 50, Rarity.COMMON, 'An embelished battleaxe crafted by Dax.'))
     world_state = WorldState()
     world_state.player = player # type: ignore
     factories: list[Any] = [
         GrabFactory(['grab'], player),
         TalkFactory(['talk'], world_state),
         LookFactory(['look'], player),
-        InspectFactory(['inspect'], player)]
+        InspectFactory(['inspect'], player),
+        DropFactory(['drop'], player)]
     
     io_handler = IOHandler(
         TerminalFrontend(),
