@@ -56,8 +56,8 @@ class DialogueState(State):
         if dialogue is None:
             self.context.output(f'{self.npc.name} has nothing to say.')
             return 
-        if dialogue.options is None:
-            return
+        if len(dialogue.options) == 0:
+            return self.context.reset()
         
         self.display_choices(dialogue.options)
         choice = self.select_choice(dialogue.options)
