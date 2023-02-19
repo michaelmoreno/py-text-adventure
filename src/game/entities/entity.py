@@ -19,7 +19,7 @@ class Entity:
     location: Location
     dialogue_node: DialogueNode | None
 
-    def __init__(self, id: int, name: str, description: str, inventory: Inventory, health: float, traits: TraitsDict, location: Location, dialogue_node: DialogueNode):
+    def __init__(self, id: int, name: str, description: str, inventory: Inventory, health: float, traits: TraitsDict, location: Location, dialogue_node: DialogueNode | None):
         self.int = id
         self.description = description
         self.name = name

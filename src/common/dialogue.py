@@ -1,15 +1,14 @@
 from __future__ import annotations
-from common.state_machine import State
-from typing import Callable, NamedTuple, Optional
-from engine.frontend.io_handler import IOHandler
+from typing import Callable, Optional
+from dataclasses import dataclass
 from world.world_state import WorldState
 
-class DialogueOption(NamedTuple):
+@dataclass
+class DialogueOption:
     text: str
-    next: Optional[DialogueNode] = None
-    requirements: list[Callable[[WorldState], bool]] = []
-    effects: list[Callable[[WorldState], None]] = []
-
+    requirements: list[Optional[Callable[[WorldState], bool]]]
+    effects: list[Optional[Callable[[WorldState], None]]]
+    next: Optional[DialogueNode]
 
 class DialogueNode:
     text: str

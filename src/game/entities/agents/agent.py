@@ -5,6 +5,6 @@ from game.locations.location import Location
 from common.dialogue import DialogueNode
 
 class Agent(Entity):
-    def __init__(self, id: int, name: str, inventory: Inventory, health: float, traits: TraitsDict, location: Location, dialogue_node: DialogueNode):
+    def __init__(self, id: int, name: str, inventory: Inventory, health: float, traits: TraitsDict, location: Location, dialogue_node: DialogueNode | None):
         super().__init__(id, name, 'blank', inventory, health, traits, location, dialogue_node)
 

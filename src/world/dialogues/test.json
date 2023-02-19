@@ -1,0 +1,49 @@
+{
+    "0": {
+        "0": {
+            "text": "Who are you?",
+            "options": [
+                {
+                    "text": "I'm a lumberjack",
+                    "requirements": [
+                        ["TraitAtleast", "Charisma", 10]
+                    ],
+                    "effects": [
+                       ["GiveItemByName", "Dax's Battleaxe"]
+                    ],
+                    "next": "1"
+                },
+                {
+                    "text": "Bye",
+                    "requirements": [],
+                    "effects": [],
+                    "next": "2"
+                }
+            ]
+        },
+        "1": {
+            "text": "You're a lumberjack? Take my battleaxe!",
+            "options": [
+                {
+                    "text": "Thanks!",
+                    "requirements": [],
+                    "effects": [],
+                    "next": "2"
+                },
+                {
+                    "text": "I can't accept that.",
+                    "requirements": [],
+                    "effects": [
+                    ],
+                    "next": "2"
+                }
+            ]
+        },
+        "2": {
+            "text": "Bye!",
+            "requirements": [],
+            "effects": [],
+            "options": []
+        }
+    }
+}

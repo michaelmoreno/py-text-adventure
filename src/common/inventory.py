@@ -20,3 +20,9 @@ class Inventory:
 
     def remove(self, item: Item):
         self.items.remove(item)
+    
+    def has_by_name(self, name: str) -> bool:
+        return name in [item.name for item in self.items]
+    
+    def get_by_name(self, name: str) -> Item:
+        return [item for item in self.items if item.name == name][0]
